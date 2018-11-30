@@ -3,7 +3,7 @@ boolean playButton = false;
 void  musicPlayerButtons() {
   //power button, see tab "Power button"
   //play-pause
-  if (mouseX>width*7/16 && mouseX<width*9/16 &&   mouseY>height*7/16 && mouseY<height*9/16 ) {
+  if (mouseX>207 && mouseX<296 &&   mouseY>267 && mouseY<329 ) {
     if (playButton == true) {
       playButton = false;
     } else{

@@ -17,7 +17,7 @@ void musicPlayerGUI_setup() {
  //fill(); //reminder: reset to default to each time
  
  //play, pause button
- if (mouseX>width*7/16 && mouseX<width*9/16 && mouseY>height*7/16 && mouseY<height*9/16) {
+ if (mouseX>207 && mouseX<296 && mouseY>267 && mouseY<329) {
     fill(hoverOverButton);
     rect(width*1/2-width*1/16, height*1/2-height*1/16, width*2/16, height*2/16, 15); //Courners Rounded more than Outer Rectangle, change?
   } else {
