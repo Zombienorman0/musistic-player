@@ -1,3 +1,11 @@
+//file / sketch / import library / add library / click minim
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
 //Gloabal Variables
 color green = #3FFA03;
 color lighterGreen = #45E810;
@@ -7,10 +15,20 @@ color grey = #3E403D;
 color coolpurple = #67096C;
 color lightPurple = #D651DE;
 
-//color bColor = color(500, 500, 500);
+color bColor = color(500, 500, 500);
+
+Minim minim;
+int numberOfSongs = 4;
+AudioPlayer[] song = new AudioPlayer[numberOfSongs];
 
 void setup () {
   size(500, 600);
+  
+   minim = new Minim(this);
+  song[0] = minim.loadFile("Tiny_Spaceship.mp3");
+  song[1] = minim.loadFile("Edison.mp3");
+  song[2] = minim.loadFile("Sweeney.mp3");
+  song[3] = minim.loadFile("Metal.mp3");
 
   //String[] fontList = PFont.list(); 
   println("Start of Console");
@@ -18,14 +36,14 @@ void setup () {
   titleFont = createFont ("Harrington", 55); 
 
   quitButtonSetup();
-  musicPlayerGUI_setup();
+ // musicPlayerGUI_setup();
   
  
 }
 
 void draw() {
-  //background(bColor);
-  //bColor = ( color ) random(0x1000000) | 0xff000000;
+  background(bColor);
+  bColor = ( color ) random(0x1000000) | 0xff000000;
   quitButtonDraw();
   fill(black);
   rect(27, 70, 450, 450, 50);
@@ -48,14 +66,14 @@ void draw() {
   noStroke();
   ellipse(250, 300, 125, 125);
    stroke(1);
-  /*
+  
    fill(lighterGreen);
-   rect(109, 275, 50, 40);
-   rect(340, 276, 50, 40);
+   //rect(109, 275, 50, 40);
+   //rect(340, 276, 50, 40);
    rect(210, 265, 85, 65);
-   rect(232, 422, 30, 30);
-   rect(232, 147, 30, 30);
-  */
+   //rect(232, 422, 30, 30);
+   //rect(232, 147, 30, 30);
+  
    fill(black);
   triangle(215, 272, 215, 322, 244, 298);
   rect( 254, 272, 15, 50, 6);
@@ -91,4 +109,35 @@ void draw() {
 void mouseClicked() { 
   quitButtonMouseClicked();
   musicPlayerButtons();
+  
+}
+
+void keyPressed() {
+  int currentSong = 2;
+  if (mouseX>210 && mouseX<85 && mouseY>265 && mouseY<85) { //Hover Over
+    fill(hoverOverButton);
+    rect(210, 265, 85, 65);
+  } else {
+    fill(regularButton);
+    rect(210, 265, 85, 65);
+  }
+    
+if (key == 'p' || key == 'P') { //Play-Pause
+    if ( song[currentSong].isPlaying() ) {
+      song[currentSong].pause();
+    }else if ( song[currentSong].position() == song[currentSong].length() ) {
+      song[currentSong].rewind();
+      song[currentSong].play();
+    }else{
+      song[currentSong].play();
+    }
+  }
+  if (key == 's' || key == 'S') {//Stop
+    if ( song[currentSong].isPlaying() ) {
+      song[currentSong].pause();
+      song[currentSong].rewind();
+    } else { //Song is not playing
+      song[currentSong].rewind();
+    }
+  }
 }

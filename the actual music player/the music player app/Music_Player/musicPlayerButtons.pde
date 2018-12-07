@@ -16,5 +16,4 @@ void  musicPlayerButtons() {
   //previous
   //volume up
   //volumedown
-  //media
 }

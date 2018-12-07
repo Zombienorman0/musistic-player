@@ -1,3 +1,4 @@
+/*
 void musicPlayerGUI_setup() {
  rect(27, 70, 450, 450, 50);
  rect(53, 95, 400, 400, 45); 
