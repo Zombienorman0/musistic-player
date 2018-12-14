@@ -20,11 +20,14 @@ color bColor = color(500, 500, 500);
 Minim minim;
 int numberOfSongs = 4;
 AudioPlayer[] song = new AudioPlayer[numberOfSongs];
+int currentSong = numberOfSongs - numberOfSongs;
+
+boolean play;
 
 void setup () {
   size(500, 600);
-  
-   minim = new Minim(this);
+
+  minim = new Minim(this);
   song[0] = minim.loadFile("Tiny_Spaceship.mp3");
   song[1] = minim.loadFile("Edison.mp3");
   song[2] = minim.loadFile("Sweeney.mp3");
@@ -36,9 +39,7 @@ void setup () {
   titleFont = createFont ("Harrington", 55); 
 
   quitButtonSetup();
- // musicPlayerGUI_setup();
-  
- 
+  // musicPlayerGUI_setup();
 }
 
 void draw() {
@@ -47,42 +48,42 @@ void draw() {
   quitButtonDraw();
   fill(black);
   rect(27, 70, 450, 450, 50);
- fill(lighterGrey);
- noStroke();
- rect(53, 95, 400, 400, 45);
- stroke(1);
- fill(grey);
- ellipse(250, 300, 350, 350);
+  fill(lighterGrey);
+  noStroke();
+  rect(53, 95, 400, 400, 45);
+  stroke(1);
+  fill(grey);
+  ellipse(250, 300, 350, 350);
   fill(green);
   noStroke();
   ellipse(250, 300, 323, 323);
   ellipse(250, 300, 125, 125);
-   stroke(1);
-   fill(lighterGreen);
-   noStroke();
+  stroke(1);
+  fill(lighterGreen);
+  noStroke();
   ellipse(250, 300, 225, 225);
-   stroke(1);
+  stroke(1);
   fill(green);
   noStroke();
   ellipse(250, 300, 125, 125);
-   stroke(1);
-  
-   fill(lighterGreen);
-   //rect(109, 275, 50, 40);
-   //rect(340, 276, 50, 40);
-   rect(210, 265, 85, 65);
-   //rect(232, 422, 30, 30);
-   //rect(232, 147, 30, 30);
-  
-   fill(black);
+  stroke(1);
+
+  fill(lighterGreen);
+  //rect(109, 275, 50, 40);
+  //rect(340, 276, 50, 40);
+  //rect(210, 265, 85, 65);
+  //rect(232, 422, 30, 30);
+  //rect(232, 147, 30, 30);
+
+  fill(black);
   triangle(215, 272, 215, 322, 244, 298);
   rect( 254, 272, 15, 50, 6);
   rect( 274, 272, 15, 50, 6);
-  
+
   triangle(152, 283, 152, 307, 137, 296);
   triangle(137, 283, 137, 307, 122, 296);
   rect( 117, 283, 5, 25, 6);
-  
+
   triangle(345, 283, 345, 307, 363, 296);
   triangle(363, 283, 363, 307, 378, 296);
   rect( 378, 283, 5, 25, 6);
@@ -90,54 +91,72 @@ void draw() {
   rect( 245, 150, 5, 25, 6);
   rect( 235, 160, 25, 5, 6);
   noStroke();
-  
+
   rect( 235, 435, 25, 5, 6);
-  
+
   fill(lightPurple);
   //ellipse();
   fill(coolpurple);
   //line();
-  
-  
-  
-  
-  
- //println ("Mousex:", mouseX, "\tMouseY:", mouseY);
 
+  if (play)
+    song[currentSong].play();
+  else
+    song[currentSong].pause();
 }
+
+//println ("Mousex:", mouseX, "\tMouseY:", mouseY);
+
+
 
 void mouseClicked() { 
   quitButtonMouseClicked();
   musicPlayerButtons();
-  
-}
 
-void keyPressed() {
-  int currentSong = 2;
-  if (mouseX>210 && mouseX<85 && mouseY>265 && mouseY<85) { //Hover Over
-    fill(hoverOverButton);
-    rect(210, 265, 85, 65);
-  } else {
-    fill(regularButton);
-    rect(210, 265, 85, 65);
+  if ( mouseX > 210 && mouseX < 210 + 85 &&
+    mouseY > 265 && mouseY < 265 + 85) {
+    play = !play;
   }
-    
-if (key == 'p' || key == 'P') { //Play-Pause
-    if ( song[currentSong].isPlaying() ) {
+
+  if ( mouseX > 340 && mouseX < 340 + 50 &&
+    mouseY > 276 && mouseY < 276 + 40) {
+    if (song[currentSong].isPlaying()) {
       song[currentSong].pause();
-    }else if ( song[currentSong].position() == song[currentSong].length() ) {
       song[currentSong].rewind();
+      if ( currentSong == numberOfSongs - 1 ) {
+        currentSong = numberOfSongs - numberOfSongs;
+      } else {
+        currentSong = currentSong + 1;
+      }
       song[currentSong].play();
-    }else{
-      song[currentSong].play();
+    } else {
+      song[currentSong].rewind();
+      if ( currentSong == numberOfSongs - 1 ) {
+        currentSong = numberOfSongs - numberOfSongs;
+      } else {
+        currentSong = currentSong + 1;
+      }
     }
   }
-  if (key == 's' || key == 'S') {//Stop
-    if ( song[currentSong].isPlaying() ) {
+
+  if ( mouseX > 109 && mouseX < 109 + 50 &&
+    mouseY > 275 && mouseY < 275 + 40) {
+    if (song[currentSong].isPlaying()) {
       song[currentSong].pause();
       song[currentSong].rewind();
-    } else { //Song is not playing
+      if ( currentSong == numberOfSongs - numberOfSongs ) {
+        currentSong = currentSong - 1;
+      } else {
+        currentSong -= 1; //currentSong = currentSong - 1;
+      }
+      song[currentSong].play();
+    } else {
       song[currentSong].rewind();
+      if ( currentSong == numberOfSongs - numberOfSongs ) {
+        currentSong = currentSong - 1;
+      } else {
+        currentSong -= 1;
+      }
     }
   }
 }
